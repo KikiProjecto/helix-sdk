@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --background: #07070D;
+  --foreground: #F0EEFF;
+
+  --void: #07070D;
+  --surface-1: #0F0F1A;
+  --surface-2: #161626;
+  --surface-3: #1E1E30;
+
+  --border-subtle: #1A1A2E;
+  --border-default: #252540;
+  --border-strong: #3D3A60;
+
+  --text-primary: #F0EEFF;
+  --text-secondary: #9492B0;
+  --text-muted: #55547A;
+  --text-code: #C5C3E8;
+
+  --solana-purple: #9945FF;
+  --solana-green: #14F195;
+
+  --state-healthy: #14F195;
+  --state-degraded: #F59E0B;
+  --state-unhealthy: #F43F5E;
+  --state-pending: #9945FF;
+  --state-unknown: #55547A;
+}
+
+@theme {
+  --color-void: var(--void);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+
+  --color-border-subtle: var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-border-strong: var(--border-strong);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-code: var(--text-code);
+
+  --color-solana-purple: var(--solana-purple);
+  --color-solana-green: var(--solana-green);
+
+  --color-state-healthy: var(--state-healthy);
+  --color-state-degraded: var(--state-degraded);
+  --color-state-unhealthy: var(--state-unhealthy);
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+body {
+  background: var(--void);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom styles and animations */
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(20, 241, 149, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(20, 241, 149, 0); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(244, 63, 94, 0); }
+}
+
+.pulse-healthy {
+  animation: pulse-green 2s ease-in-out infinite;
+}
+
+.pulse-unhealthy {
+  animation: pulse-red 0.75s ease-in-out infinite;
+}

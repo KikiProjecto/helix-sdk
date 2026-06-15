@@ -1,0 +1,74 @@
+# ─── Dependencies ───────────────────────────────────────────────────
+node_modules/
+.pnpm-store/
+
+# ─── Build outputs ──────────────────────────────────────────────────
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ─── Coverage ───────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+*.lcov
+
+# ─── Environment — NEVER COMMIT ─────────────────────────────────────
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+*.pem
+*.key
+*.p12
+*.pfx
+
+# ─── Secrets & credentials ──────────────────────────────────────────
+*.keypair.json
+*-keypair.json
+keypair*.json
+wallet*.json
+id.json
+*.secret
+secrets/
+
+# ─── IDE & OS ───────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/settings.json
+.vscode/launch.json
+
+# ─── Logs ───────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+
+# ─── Turbo ──────────────────────────────────────────────────────────
+.turbo/
+
+# ─── Vercel ─────────────────────────────────────────────────────────
+.vercel/
+
+# ─── Test artifacts ─────────────────────────────────────────────────
+playwright-report/
+test-results/
+
+# ─── Misc ───────────────────────────────────────────────────────────
+*.tgz
+*.tar.gz
+.cache/
+tmp/
+temp/

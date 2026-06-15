@@ -1,0 +1,57 @@
+About Superteam Ukraine
+
+Superteam Ukraine is a chapter of Superteam DAO. We're all about empowering our community to take on the coolest, most impactful work in the Solana ecosystem. We connect talented folks with exciting opportunities, helping them build and grow in the web3 space.
+Mission
+
+Build out a systems-grade SDK that improves RPC and transaction reliability for Solana dApps.
+Scope Detail
+
+    SDK Compatibility & Ecosystem Alignment:
+
+        Adapt the codebase to support Solana's new functional, modular web3.js v2.0.
+
+        Create a plug-and-play adapter to integrate the resilience layer seamlessly with standard wallets.
+
+    Advanced Resiliency & Execution:
+
+        Route transactions via MEV Relays with automatic RPC fallback to prevent frontrunning.
+
+        Fetch external fee estimates dynamically to optimize transaction execution costs.
+
+        Distribute traffic intelligently across healthy nodes to prevent rate-limiting.
+
+    Developer Experience:
+
+        Export RPC metrics (latency, failures) to platforms like OpenTelemetry and Datadog.
+
+        Develop a real-time monitoring tool for RPC health and transaction status.
+
+        Achieve 90%+ test coverage via automated network drop and latency simulations.
+
+Submission Requirements
+
+    Public GitHub repo with all source code.
+
+    Web3.js v2.0 compatibility verified with tests.
+
+    Wallet adapter integration with at least one major wallet.
+
+    Jito/MEV routing implemented and documented.
+
+    Observability exports working (OpenTelemetry or Datadog).
+
+    Diagnostics CLI functional.
+
+    90%+ test coverage with network simulation tests.
+
+Judging Criteria
+
+    Correctness (40%): All features work reliably under simulated failure conditions.
+
+    Resilience Quality (25%): How well does the SDK handle RPC failures, dropped transactions, and network congestion?
+
+    Developer Experience (20%): Is the API clean, intuitive, and easy to adopt?
+
+    Test Coverage and Simulation Quality (15%): The thoroughness and effectiveness of tests and network simulations.
+
+
