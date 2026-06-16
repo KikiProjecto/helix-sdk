@@ -35,7 +35,6 @@ export function PoolNodeDotMap({ endpoints }: PoolNodeDotMapProps) {
         {endpoints.map((ep) => {
           const isHealthy = ep.status === 'healthy';
           const isDegraded = ep.status === 'degraded';
-          const isUnhealthy = ep.status === 'unhealthy';
 
           const dotColorClass = isHealthy 
             ? 'bg-state-healthy' 

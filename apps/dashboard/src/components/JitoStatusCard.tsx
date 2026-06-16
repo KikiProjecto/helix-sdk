@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Cpu, ShieldAlert, Zap, Globe } from 'lucide-react';
+import { Globe } from 'lucide-react';
 
 export function JitoStatusCard() {
   const [bundlesCount, setBundlesCount] = useState(847);

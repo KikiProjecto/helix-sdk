@@ -9,7 +9,6 @@ import { LiveTerminal } from '@/components/LiveTerminal';
 import { TxStreamPanel } from '@/components/TxStreamPanel';
 import { JitoStatusCard } from '@/components/JitoStatusCard';
 import { PoolNodeDotMap } from '@/components/PoolNodeDotMap';
-import { Settings, ShieldCheck, Activity, Terminal, Network, ExternalLink } from 'lucide-react';
 
 export default function Dashboard() {
   const { metrics, connected } = useMetricsSocket();

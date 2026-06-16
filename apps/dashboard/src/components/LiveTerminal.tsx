@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { EndpointMetric } from '@/hooks/useMetricsSocket';
-import { Terminal, RefreshCw, Cpu, Server, ShieldCheck, Zap } from 'lucide-react';
+import { Terminal, Cpu, Server, ShieldCheck, Zap } from 'lucide-react';
 
 interface LiveTerminalProps {
   endpoints: EndpointMetric[];

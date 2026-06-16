@@ -11,18 +11,12 @@ interface PoolStatusGridProps {
 export function PoolStatusGrid({ endpoints }: PoolStatusGridProps) {
   return (
     <>
-      {endpoints.map((ep, idx) => {
+      {endpoints.map((ep) => {
         const isHealthy = ep.status === 'healthy';
         const isDegraded = ep.status === 'degraded';
         
         const statusText = ep.status.toUpperCase();
         
-        const statusColorClass = isHealthy 
-          ? 'text-state-healthy' 
-          : isDegraded 
-          ? 'text-state-degraded' 
-          : 'text-state-unhealthy';
-
         const statusDotClass = isHealthy
           ? 'bg-state-healthy pulse-healthy'
           : isDegraded
@@ -36,7 +30,6 @@ export function PoolStatusGrid({ endpoints }: PoolStatusGridProps) {
           : 'bg-state-unhealthy/10 text-state-unhealthy border border-state-unhealthy/20';
 
         const strokeColor = isHealthy ? '#14F195' : isDegraded ? '#F59E0B' : '#F43F5E';
-        const fillColor = isHealthy ? 'rgba(20, 241, 149, 0.06)' : isDegraded ? 'rgba(245, 158, 11, 0.06)' : 'rgba(244, 63, 94, 0.06)';
 
         // Format history data for AreaChart (last 30 data points)
         const chartData = ep.history.map((val, i) => ({ slot: i, latency: val }));
@@ -44,7 +37,7 @@ export function PoolStatusGrid({ endpoints }: PoolStatusGridProps) {
         // Grid positioning logic
         // Card 1 & 2 go on Row 6-10. Card 3 & 4 go on Row 11-15.
         // Helius (col 1-4), QuickNode (col 5-8), Triton (col 1-4), Public (col 5-8)
-        let gridSpan = 'col-span-12 md:col-span-6 xl:col-span-4 xl:row-span-5';
+        const gridSpan = 'col-span-12 md:col-span-6 xl:col-span-4 xl:row-span-5';
 
         return (
           <div 

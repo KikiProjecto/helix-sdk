@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { TransactionMetric } from '@/hooks/useMetricsSocket';
-import { CheckCircle2, XCircle, RefreshCw, Activity } from 'lucide-react';
+import { CheckCircle2, XCircle, RefreshCw } from 'lucide-react';
 
 interface TxStreamPanelProps {
   transactions: TransactionMetric[];

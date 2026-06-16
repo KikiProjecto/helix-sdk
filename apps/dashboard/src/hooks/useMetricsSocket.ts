@@ -148,7 +148,7 @@ export function useMetricsSocket() {
 
   useEffect(() => {
     let reconnectTimeout: NodeJS.Timeout;
-    let fallbackTimeout: NodeJS.Timeout;
+    let fallbackTimeout: NodeJS.Timeout | undefined;
     let simulationInterval: NodeJS.Timeout;
     let tickCount = 0;
 
@@ -194,6 +194,7 @@ export function useMetricsSocket() {
             }
             if (fallbackTimeout) {
               clearTimeout(fallbackTimeout);
+              fallbackTimeout = undefined;
             }
 
             setMetrics(frame);
@@ -212,7 +213,7 @@ export function useMetricsSocket() {
           console.error('WebSocket connection error:', err);
           try {
             socket.close();
-          } catch (e) {}
+          } catch {}
         };
 
         wsRef.current = socket;
@@ -240,7 +241,7 @@ export function useMetricsSocket() {
       if (wsRef.current) {
         try {
           wsRef.current.close();
-        } catch (e) {}
+        } catch {}
       }
     };
   }, []);
