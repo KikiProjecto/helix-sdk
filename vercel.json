@@ -3,17 +3,10 @@
   "buildCommand": "pnpm --filter dashboard build",
   "devCommand": "pnpm --filter dashboard dev",
   "installCommand": "pnpm install",
-  "framework": null,
+  "framework": "nextjs",
   "outputDirectory": "apps/dashboard/.next",
-  "ignoreCommand": "git diff --quiet HEAD~1 HEAD -- apps/dashboard",
   "env": {
     "NODE_ENV": "production"
-  },
-  "functions": {
-    "apps/dashboard/src/app/**/*.{js,jsx,ts,tsx}": {
-      "memory": 3008,
-      "maxDuration": 60
-    }
   },
   "redirects": [],
   "rewrites": [

@@ -1,4 +1,5 @@
-packages/**
-examples/**
 apps/dashboard/coverage
 apps/dashboard/.next
+node_modules
+.next
+.turbo
