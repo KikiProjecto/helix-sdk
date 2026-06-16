@@ -40,41 +40,56 @@ export function useMetricsSocket() {
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
+    let reconnectTimeout: NodeJS.Timeout;
+
     function connect() {
-      const socket = new WebSocket('ws://localhost:3001');
+      try {
+        const socket = new WebSocket('ws://localhost:3001');
 
-      socket.onopen = () => {
-        setConnected(true);
-      };
+        socket.onopen = () => {
+          setConnected(true);
+        };
 
-      socket.onmessage = (event) => {
-        try {
-          const frame = JSON.parse(event.data) as MetricsFrame;
-          setMetrics(frame);
-        } catch (err) {
-          console.error('Failed to parse metrics frame:', err);
-        }
-      };
+        socket.onmessage = (event) => {
+          try {
+            const frame = JSON.parse(event.data) as MetricsFrame;
+            setMetrics(frame);
+          } catch (err) {
+            console.error('Failed to parse metrics frame:', err);
+          }
+        };
 
-      socket.onclose = () => {
+        socket.onclose = () => {
+          setConnected(false);
+          // Retry connection after 2 seconds
+          reconnectTimeout = setTimeout(connect, 2000);
+        };
+
+        socket.onerror = (err) => {
+          console.error('WebSocket connection error:', err);
+          try {
+            socket.close();
+          } catch (e) {}
+        };
+
+        wsRef.current = socket;
+      } catch (err) {
+        console.error('Failed to construct WebSocket:', err);
         setConnected(false);
-        // Retry connection after 2 seconds
-        setTimeout(connect, 2000);
-      };
-
-      socket.onerror = (err) => {
-        console.error('WebSocket connection error:', err);
-        socket.close();
-      };
-
-      wsRef.current = socket;
+        reconnectTimeout = setTimeout(connect, 2000);
+      }
     }
 
     connect();
 
     return () => {
+      if (reconnectTimeout) {
+        clearTimeout(reconnectTimeout);
+      }
       if (wsRef.current) {
-        wsRef.current.close();
+        try {
+          wsRef.current.close();
+        } catch (e) {}
       }
     };
   }, []);
