@@ -1,4 +1,4 @@
-# Helix SDK — Solana RPC & Transaction Reliability Infrastructure
+# Helix SDK
 
 [![CI](https://github.com/KikiProjecto/helix-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/KikiProjecto/helix-sdk/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
