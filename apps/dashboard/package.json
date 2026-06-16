@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "eslint"
   },
+  "engines": {
+    "node": "22.x"
+  },
+  "packageManager": "pnpm@11.6.0",
   "dependencies": {
     "@types/ws": "^8.18.1",
     "lucide-react": "^1.18.0",
