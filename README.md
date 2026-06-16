@@ -8,7 +8,7 @@ Helix is a production-grade, systems-level TypeScript SDK built on the functiona
 
 ---
 
-## 📦 Monorepo Packages
+## Monorepo Packages
 
 Helix is organized as a pnpm workspace monorepo:
 
@@ -24,7 +24,7 @@ Helix is organized as a pnpm workspace monorepo:
 
 ---
 
-## 🛠️ Architecture Overview
+## Architecture Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -50,7 +50,7 @@ Helix is organized as a pnpm workspace monorepo:
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 Get started in three lines of code:
 
@@ -71,6 +71,6 @@ const helix = createHelixClient({
 
 ---
 
-## ⚖️ License
+## License
 
-MIT License. Built for Superteam Ukraine Hackathon.
+MIT License.
