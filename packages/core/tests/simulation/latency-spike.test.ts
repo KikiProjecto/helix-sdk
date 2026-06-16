@@ -11,7 +11,7 @@ describe('Latency Spike Simulation', () => {
       {
         url: 'https://rpc-fast.solana.com',
         status: 200,
-        latencyMs: 5,
+        latencyMs: 0,
         slotResponse: 500,
         callCount: 0,
       },
