@@ -33,7 +33,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; connect-src 'self' wss: https://*.solana.com https://*.helius-rpc.com; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;"
+          "value": "default-src 'self'; connect-src 'self' wss: https://*.solana.com https://*.helius-rpc.com; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;"
         }
       ]
     },
