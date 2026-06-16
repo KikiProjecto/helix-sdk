@@ -2,27 +2,33 @@
 
 import React from 'react';
 import { TransactionMetric } from '@/hooks/useMetricsSocket';
-import { CheckCircle2, XCircle, RefreshCw } from 'lucide-react';
+import { CheckCircle2, XCircle, RefreshCw, Activity } from 'lucide-react';
 
 interface TxStreamPanelProps {
   transactions: TransactionMetric[];
 }
 
 export function TxStreamPanel({ transactions }: TxStreamPanelProps) {
+  const confirmedCount = transactions.filter((t) => t.status === 'confirmed').length;
+  const retriedCount = transactions.filter((t) => t.status === 'retried').length;
+  const droppedCount = transactions.filter((t) => t.status === 'dropped').length;
+
   return (
-    <div className="bg-surface-1 border border-border-default rounded-lg overflow-hidden flex flex-col h-[480px]">
-      <div className="p-4 border-b border-border-subtle flex justify-between items-center">
-        <h2 className="font-display font-semibold text-lg tracking-tight text-text-primary">TRANSACTION STREAM</h2>
-        <span className="text-xs font-mono text-text-muted flex items-center gap-1.5 animate-pulse">
+    <div className="glass-card flex flex-col h-full col-span-12 xl:col-span-4 xl:row-span-10 shadow-2xl">
+      {/* Header */}
+      <div className="p-4 border-b border-white/[0.08] flex justify-between items-center bg-black/20 select-none">
+        <h2 className="font-display font-semibold text-[14px] tracking-wider text-text-primary">TRANSACTION FEED</h2>
+        <span className="text-[10px] font-mono text-text-muted flex items-center gap-1.5 animate-pulse">
           <span className="w-1.5 h-1.5 rounded-full bg-solana-purple" />
-          LIVE FEED
+          LIVE STREAM
         </span>
       </div>
 
-      <div className="flex-1 overflow-y-auto font-mono text-xs p-4 flex flex-col gap-2">
+      {/* Transaction Feed List */}
+      <div className="flex-1 overflow-y-auto font-mono text-[11px] p-4 flex flex-col gap-2 bg-black/10 min-h-[300px]">
         {transactions.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-text-muted">
-            <RefreshCw className="w-6 h-6 animate-spin mb-2" />
+          <div className="flex flex-col items-center justify-center h-full text-text-muted select-none">
+            <RefreshCw className="w-6 h-6 animate-spin mb-2 text-solana-purple" />
             <span>Awaiting transactions...</span>
           </div>
         ) : (
@@ -38,48 +44,60 @@ export function TxStreamPanel({ transactions }: TxStreamPanelProps) {
               : 'text-state-degraded';
 
             const bgClass = isDropped 
-              ? 'bg-[rgba(244,63,94,0.03)] border-[rgba(244,63,94,0.08)]' 
+              ? 'bg-red-500/5 border-red-500/10' 
               : isRetried 
-              ? 'bg-[rgba(245,158,11,0.03)] border-[rgba(245,158,11,0.08)]' 
-              : 'bg-surface-2 border-border-subtle';
+              ? 'bg-amber-500/5 border-amber-500/10' 
+              : 'bg-white/[0.03] border-white/[0.06]';
+
+            const borderClass = isConfirmed 
+              ? 'hover:border-state-healthy/20' 
+              : isDropped 
+              ? 'hover:border-state-unhealthy/20' 
+              : 'hover:border-state-degraded/20';
 
             return (
               <div 
                 key={tx.signature} 
-                className={`flex items-center justify-between p-3 rounded border ${bgClass} transition-all duration-300 hover:border-border-strong`}
+                className={`flex items-center justify-between p-3 rounded-lg border ${bgClass} ${borderClass} transition-all duration-300 hover:bg-white/[0.06] animate-slide-in-top`}
               >
-                {/* Left: Signature & Status Icon */}
-                <div className="flex items-center gap-2.5">
+                {/* Left: Status Icon & Sig */}
+                <div className="flex items-center gap-2">
                   {isConfirmed ? (
-                    <CheckCircle2 className="w-4 h-4 text-state-healthy" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-state-healthy shrink-0" />
                   ) : isDropped ? (
-                    <XCircle className="w-4 h-4 text-state-unhealthy" />
+                    <XCircle className="w-3.5 h-3.5 text-state-unhealthy shrink-0" />
                   ) : (
-                    <RefreshCw className="w-4 h-4 text-state-degraded animate-spin" />
+                    <RefreshCw className="w-3.5 h-3.5 text-state-degraded animate-spin shrink-0" />
                   )}
-                  <span className="font-semibold text-text-primary">{tx.signature}</span>
+                  <span className="font-semibold text-text-primary text-[12px]">{tx.signature}</span>
                 </div>
 
-                {/* Center: Info & Metres */}
-                <div className="flex items-center gap-4 text-text-secondary">
-                  <span className={`font-semibold tracking-wide uppercase ${statusColor}`}>
+                {/* Center: Status text, latency, source */}
+                <div className="flex items-center gap-3 text-text-secondary">
+                  <span className={`font-semibold tracking-wide uppercase text-[10px] ${statusColor}`}>
                     {tx.status}
                   </span>
                   <span>{tx.latencyMs > 0 ? `${tx.latencyMs}ms` : '—'}</span>
-                  <span className="bg-surface-3 px-1.5 py-0.5 rounded text-[10px] text-text-code">
+                  <span className="bg-white/[0.05] border border-white/[0.08] px-1.5 py-0.5 rounded text-[9px] text-text-code">
                     {tx.source}
                   </span>
                 </div>
 
-                {/* Right: Fees & Time */}
-                <div className="flex items-center gap-4 text-right">
-                  <span className="text-text-muted">{tx.fee}</span>
-                  <span className="text-text-muted min-w-[50px]">{tx.timeAgo}</span>
+                {/* Right: Fee */}
+                <div className="text-right text-text-muted text-[10px]">
+                  <span>{tx.fee}</span>
                 </div>
               </div>
             );
           })
         )}
+      </div>
+
+      {/* Footer stats badge panel */}
+      <div className="p-3 border-t border-white/[0.06] bg-black/25 flex justify-between items-center text-[10px] font-mono text-text-muted select-none">
+        <span>CONFIRMED: <span className="text-state-healthy">{confirmedCount}</span></span>
+        <span>RETRIED: <span className="text-state-degraded">{retriedCount}</span></span>
+        <span>DROPPED: <span className="text-state-unhealthy">{droppedCount}</span></span>
       </div>
     </div>
   );

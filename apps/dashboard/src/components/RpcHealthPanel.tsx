@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Zap, Activity } from 'lucide-react';
+import { ShieldCheck, Zap, AlertTriangle } from 'lucide-react';
 import { EndpointMetric, TransactionMetric } from '@/hooks/useMetricsSocket';
 
 interface RpcHealthPanelProps {
@@ -15,54 +15,94 @@ export function RpcHealthPanel({ endpoints, transactions }: RpcHealthPanelProps)
   // Count dropped transactions
   const droppedCount = transactions.filter((t) => t.status === 'dropped').length;
 
+  // Latency status/progress
+  const maxThreshold = 1500;
+  const latencyPercentage = Math.min(100, Math.max(5, (avgP50 / maxThreshold) * 100));
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-      {/* Uptime Card */}
-      <div className="bg-surface-1 border border-border-default rounded-lg p-5 flex flex-col justify-between h-[120px] transition-all hover:border-border-strong">
-        <div className="flex justify-between items-center text-xs font-display uppercase tracking-wider text-text-muted">
-          <span>UPTIME SLA</span>
-          <ShieldCheck className="w-4 h-4 text-state-healthy" />
-        </div>
-        <div className="text-3xl font-mono font-semibold text-text-primary mt-2">
-          99.85%
-        </div>
-        <div className="text-xs text-text-secondary mt-1 flex items-center justify-between">
-          <span>Target: 99.9%</span>
-          <span className="text-state-healthy">● healthy</span>
-        </div>
-      </div>
-
-      {/* Latency Card */}
-      <div className="bg-surface-1 border border-border-default rounded-lg p-5 flex flex-col justify-between h-[120px] transition-all hover:border-border-strong">
-        <div className="flex justify-between items-center text-xs font-display uppercase tracking-wider text-text-muted">
+    <>
+      {/* 1. Latency Card (col-span-2, row-span-2) */}
+      <div className="glass-card p-5 flex flex-col justify-between col-span-12 md:col-span-6 xl:col-span-2 xl:row-span-2 group">
+        <div className="flex justify-between items-center text-[10px] font-display font-medium tracking-widest text-text-muted uppercase">
           <span>AVG P50 LATENCY</span>
-          <Zap className="w-4 h-4 text-solana-purple" />
+          <Zap className="w-4 h-4 text-solana-purple group-hover:animate-bounce shrink-0" />
         </div>
-        <div className="text-3xl font-mono font-semibold text-text-primary mt-2">
-          {avgP50 > 0 ? `${avgP50} ms` : '--'}
+        <div className="flex items-baseline mt-2">
+          <span className="text-5xl font-mono font-bold tracking-tight text-text-primary metric-number">
+            {avgP50 > 0 ? avgP50 : '--'}
+          </span>
+          <span className="text-lg font-mono text-text-secondary ml-1">ms</span>
         </div>
-        <div className="text-xs text-text-secondary mt-1 flex items-center justify-between">
-          <span>Threshold: 1,500ms</span>
-          <span className="text-solana-green">↓ 8ms from 1h ago</span>
+        <div className="mt-4">
+          <div className="text-[11px] font-sans text-state-healthy flex items-center justify-between mb-1">
+            <span>↓ 8ms from 1h ago</span>
+            <span className="text-text-muted font-mono">{avgP50}/{maxThreshold}ms</span>
+          </div>
+          {/* Progress bar */}
+          <div className="h-1.5 w-full bg-white/5 border border-white/5 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-solana-purple transition-all duration-500 rounded-full" 
+              style={{ width: `${latencyPercentage}%` }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Dropped Txs Card */}
-      <div className="bg-surface-1 border border-border-default rounded-lg p-5 flex flex-col justify-between h-[120px] transition-all hover:border-border-strong">
-        <div className="flex justify-between items-center text-xs font-display uppercase tracking-wider text-text-muted">
-          <span>DROPPED TRANSACTIONS</span>
-          <Activity className="w-4 h-4 text-state-unhealthy" />
+      {/* 2. Uptime SLA Card (col-span-2, row-span-2) */}
+      <div className="glass-card p-5 flex flex-col justify-between col-span-12 md:col-span-6 xl:col-span-2 xl:row-span-2 group">
+        <div className="flex justify-between items-center text-[10px] font-display font-medium tracking-widest text-text-muted uppercase">
+          <span>UPTIME SLA</span>
+          <ShieldCheck className="w-4 h-4 text-state-healthy shrink-0" />
         </div>
-        <div className="text-3xl font-mono font-semibold text-text-primary mt-2">
-          {droppedCount}
-        </div>
-        <div className="text-xs text-text-secondary mt-1 flex items-center justify-between">
-          <span>Helix Protection: Active</span>
-          <span className={droppedCount > 0 ? 'text-state-unhealthy' : 'text-state-healthy'}>
-            {droppedCount > 0 ? '⚠ DROPS DETECTED' : '✓ 100% SUCCESS'}
+        <div className="flex items-baseline mt-2">
+          <span className="text-5xl font-mono font-bold tracking-tight text-text-primary metric-number">
+            99.85
           </span>
+          <span className="text-lg font-mono text-text-secondary ml-1">%</span>
+        </div>
+        <div className="mt-4">
+          <div className="text-[11px] font-sans text-state-healthy flex items-center justify-between mb-1">
+            <span>Target: 99.90%</span>
+            <span className="text-state-healthy font-mono">● healthy</span>
+          </div>
+          {/* Progress bar */}
+          <div className="h-1.5 w-full bg-white/5 border border-white/5 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-state-healthy transition-all duration-500 rounded-full" 
+              style={{ width: '99.85%' }}
+            />
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* 3. Dropped Transactions Card (col-span-2, row-span-2) */}
+      <div className="glass-card p-5 flex flex-col justify-between col-span-12 md:col-span-6 xl:col-span-2 xl:row-span-2 group">
+        <div className="flex justify-between items-center text-[10px] font-display font-medium tracking-widest text-text-muted uppercase">
+          <span>DROPPED TXS</span>
+          <AlertTriangle className={`w-4 h-4 shrink-0 ${droppedCount > 0 ? 'text-state-unhealthy animate-pulse' : 'text-text-muted'}`} />
+        </div>
+        <div className="flex items-baseline mt-2">
+          <span className="text-5xl font-mono font-bold tracking-tight text-text-primary metric-number">
+            {droppedCount}
+          </span>
+          <span className="text-lg font-mono text-text-secondary ml-1">txs</span>
+        </div>
+        <div className="mt-4">
+          <div className="text-[11px] font-sans flex items-center justify-between mb-1">
+            <span className="text-text-secondary">Protection: Active</span>
+            <span className={`font-mono ${droppedCount > 0 ? 'text-state-unhealthy' : 'text-state-healthy'}`}>
+              {droppedCount > 0 ? '⚠ DROPS DETECTED' : '✓ 100% SUCCESS'}
+            </span>
+          </div>
+          {/* Progress bar */}
+          <div className="h-1.5 w-full bg-white/5 border border-white/5 rounded-full overflow-hidden">
+            <div 
+              className={`h-full transition-all duration-500 rounded-full ${droppedCount > 0 ? 'bg-state-unhealthy' : 'bg-state-healthy'}`} 
+              style={{ width: droppedCount > 0 ? '100%' : '0%' }}
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

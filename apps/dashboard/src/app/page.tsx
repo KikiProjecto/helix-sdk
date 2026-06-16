@@ -1,129 +1,197 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useMetricsSocket } from '@/hooks/useMetricsSocket';
 import { AlertBanner } from '@/components/AlertBanner';
 import { RpcHealthPanel } from '@/components/RpcHealthPanel';
 import { PoolStatusGrid } from '@/components/PoolStatusGrid';
-import { TxStreamPanel } from '@/components/TxStreamPanel';
 import { LiveTerminal } from '@/components/LiveTerminal';
-import { 
-  Terminal, 
-  Activity, 
-  Settings, 
-  Network, 
-  RefreshCw, 
-  ExternalLink 
-} from 'lucide-react';
+import { TxStreamPanel } from '@/components/TxStreamPanel';
+import { JitoStatusCard } from '@/components/JitoStatusCard';
+import { PoolNodeDotMap } from '@/components/PoolNodeDotMap';
+import { Settings, ShieldCheck, Activity, Terminal, Network, ExternalLink } from 'lucide-react';
 
 export default function Dashboard() {
   const { metrics, connected } = useMetricsSocket();
+  const [activeTab, setActiveTab] = useState<'overview' | 'endpoints' | 'transactions' | 'settings'>('overview');
 
   // Loading state if WS hasn't loaded first frame
   if (!metrics) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-void text-text-primary">
-        <RefreshCw className="w-8 h-8 text-solana-purple animate-spin mb-4" />
-        <span className="font-display font-medium text-sm tracking-wide">CONNECTING TO HELIX RESILIENCE DAEMON...</span>
+      <div className="flex flex-col items-center justify-center min-h-screen relative overflow-hidden bg-void">
+        {/* Ambient glows inside loading page */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute top-[20%] right-[30%] w-[300px] h-[300px] rounded-full bg-solana-purple/10 blur-[80px]" />
+          <div className="absolute bottom-[30%] left-[20%] w-[300px] h-[300px] rounded-full bg-state-jito/10 blur-[80px]" />
+        </div>
+        <div className="z-10 flex flex-col items-center">
+          <span className="w-12 h-12 flex items-center justify-center bg-solana-purple rounded-xl text-white font-mono text-xl font-bold mb-4 shadow-[0_8px_32px_rgba(153,69,255,0.3)] select-none">⬡</span>
+          <h1 className="font-display font-bold text-lg tracking-widest text-text-primary uppercase">HELIX RESILIENCE DAEMON</h1>
+          <p className="text-xs text-text-secondary mt-1 tracking-wide">Connecting to RPC pool...</p>
+          {/* Animated progress bar */}
+          <div className="h-1 w-48 bg-white/5 border border-white/5 rounded-full overflow-hidden mt-6 relative">
+            <div className="h-full bg-solana-purple rounded-full w-24 absolute top-0 left-0 animate-progress-loading" />
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-void text-text-primary font-sans">
-      {/* 1. Sidebar (220px fixed) */}
-      <aside className="w-[220px] bg-surface-1 border-r border-border-subtle flex flex-col justify-between p-5 select-none shrink-0">
-        <div className="flex flex-col gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2 font-display font-bold text-lg text-text-primary tracking-tight">
-            <span className="w-5 h-5 flex items-center justify-center bg-solana-purple rounded text-white font-mono text-xs">⬡</span>
-            HELIX SDK
-          </div>
+    <div className="min-h-screen pt-24 pb-8 px-4 sm:px-6 lg:px-8 flex flex-col gap-6 bg-void relative">
+      {/* 1. Floating Navigation Pill */}
+      <div className="nav-pill select-none">
+        <span className="w-5 h-5 flex items-center justify-center bg-solana-purple rounded text-white font-mono text-xs font-bold mr-2">⬡</span>
+        <span className="font-display font-bold text-sm tracking-tight text-text-primary mr-4">helix</span>
+        
+        <button 
+          onClick={() => setActiveTab('overview')} 
+          className={`nav-tab ${activeTab === 'overview' ? 'active' : ''}`}
+        >
+          Overview
+        </button>
+        <button 
+          onClick={() => setActiveTab('endpoints')} 
+          className={`nav-tab ${activeTab === 'endpoints' ? 'active' : ''}`}
+        >
+          Endpoints
+        </button>
+        <button 
+          onClick={() => setActiveTab('transactions')} 
+          className={`nav-tab ${activeTab === 'transactions' ? 'active' : ''}`}
+        >
+          Transactions
+        </button>
+        <button 
+          onClick={() => setActiveTab('settings')} 
+          className={`nav-tab ${activeTab === 'settings' ? 'active' : ''}`}
+        >
+          Settings
+        </button>
 
-          {/* Navigation */}
-          <nav className="flex flex-col gap-1">
-            <span className="text-[10px] font-display font-bold tracking-wider text-text-muted uppercase mb-2">MONITORING</span>
-            
-            <a href="#" className="flex items-center gap-2.5 px-3 py-2 rounded text-sm font-medium bg-surface-2 border-l-2 border-solana-purple text-text-primary">
-              <Activity className="w-4 h-4 text-solana-purple" />
-              Overview
-            </a>
-            <a href="#" className="flex items-center gap-2.5 px-3 py-2 rounded text-sm font-medium text-text-secondary hover:bg-surface-2 transition-colors">
-              <Network className="w-4 h-4" />
-              Endpoints
-            </a>
-            <a href="#" className="flex items-center gap-2.5 px-3 py-2 rounded text-sm font-medium text-text-secondary hover:bg-surface-2 transition-colors">
-              <Terminal className="w-4 h-4" />
-              Transactions
-            </a>
-            <a href="#" className="flex items-center gap-2.5 px-3 py-2 rounded text-sm font-medium text-text-secondary hover:bg-surface-2 transition-colors">
-              <Settings className="w-4 h-4" />
-              Settings
-            </a>
-          </nav>
+        <div className="nav-status">
+          <span className={`w-2 h-2 rounded-full ${connected ? 'bg-state-healthy pulse-healthy' : 'bg-state-unhealthy pulse-unhealthy'}`} />
+          <span className="hidden sm:inline uppercase text-[9px] font-bold">
+            {connected ? 'daemon: live' : 'daemon: offline'}
+          </span>
         </div>
+      </div>
 
-        {/* Sidebar Footer status */}
-        <div className="flex flex-col gap-2 border-t border-border-subtle pt-4">
-          <span className="text-[10px] font-display font-bold tracking-wider text-text-muted uppercase">POOL STATUS</span>
-          <div className="flex items-center gap-1.5 text-xs text-text-secondary font-mono">
-            <span className="w-2 h-2 rounded-full bg-state-healthy pulse-healthy" />
-            <span>{metrics.pool.healthyCount} healthy</span>
-          </div>
-          {metrics.pool.degradedCount > 0 && (
-            <div className="flex items-center gap-1.5 text-xs text-text-secondary font-mono">
-              <span className="w-2 h-2 rounded-full bg-state-degraded" />
-              <span>{metrics.pool.degradedCount} degraded</span>
-            </div>
-          )}
-          <div className="text-[10px] text-text-muted mt-2 flex items-center justify-between">
-            <span>Daemon: {connected ? 'Live' : 'Offline'}</span>
-            <span className={connected ? 'text-state-healthy' : 'text-state-unhealthy'}>●</span>
-          </div>
-        </div>
-      </aside>
+      {/* Alerts Banner (always visible at top of body if alerts exist) */}
+      <AlertBanner alerts={metrics.alerts} />
 
-      {/* 2. Main Content */}
-      <main className="flex-1 p-8 flex flex-col gap-6 overflow-y-auto max-w-[1400px] mx-auto w-full">
-        {/* Header */}
-        <header className="flex justify-between items-center border-b border-border-subtle pb-4">
-          <div>
-            <h1 className="font-display font-bold text-2xl tracking-tight text-text-primary">RPC Pool Health Monitor</h1>
-            <p className="text-xs text-text-secondary mt-1">Real-time failover diagnostic console for Solana cluster configurations</p>
-          </div>
-          <div className="flex items-center gap-3 text-xs font-mono text-text-muted">
-            <span>Last sync: {new Date(metrics.timestamp).toLocaleTimeString()}</span>
-            <a 
-              href="https://github.com" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="flex items-center gap-1 text-solana-purple hover:underline"
-            >
-              GitHub <ExternalLink className="w-3 h-3" />
-            </a>
-          </div>
-        </header>
-
-        {/* Alerts Banner */}
-        <AlertBanner alerts={metrics.alerts} />
-
-        {/* Stats Summary Panel */}
-        <RpcHealthPanel endpoints={metrics.endpoints} transactions={metrics.transactions} />
-
-        {/* Main Dashboard Layout Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          {/* Left Columns (Pool Grid + Live Terminal) */}
-          <div className="xl:col-span-2 flex flex-col gap-6">
-            <PoolStatusGrid endpoints={metrics.endpoints} />
+      {/* Main bento grid layout based on tab view */}
+      <div className="bento-grid w-full">
+        {activeTab === 'overview' && (
+          <>
+            {/* Rows 1-5: Hero Terminal (Left) */}
             <LiveTerminal endpoints={metrics.endpoints} />
-          </div>
 
-          {/* Right Column (Live Tx Stream) */}
-          <div className="xl:col-span-1">
+            {/* Rows 1-2: Latency & Uptime metrics (Right) */}
+            <RpcHealthPanel endpoints={metrics.endpoints} transactions={metrics.transactions} />
+
+            {/* Rows 3-5: Jito Status (Right) */}
+            <JitoStatusCard />
+
+            {/* Rows 6-15: Individual Endpoint Health Cards (4 endpoints) */}
+            <PoolStatusGrid endpoints={metrics.endpoints} />
+
+            {/* Rows 6-15: Live Transaction Stream (Right) */}
             <TxStreamPanel transactions={metrics.transactions} />
+
+            {/* Rows 16-17: Bottom full-width map (Left) */}
+            <PoolNodeDotMap endpoints={metrics.endpoints} />
+          </>
+        )}
+
+        {activeTab === 'endpoints' && (
+          <div className="col-span-12 flex flex-col gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <PoolStatusGrid endpoints={metrics.endpoints} />
+            </div>
+            <div className="w-full">
+              <PoolNodeDotMap endpoints={metrics.endpoints} />
+            </div>
           </div>
-        </div>
-      </main>
+        )}
+
+        {activeTab === 'transactions' && (
+          <div className="col-span-12 grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+            <div className="xl:col-span-8 flex flex-col gap-6">
+              <LiveTerminal endpoints={metrics.endpoints} />
+            </div>
+            <div className="xl:col-span-4 flex flex-col gap-6">
+              <JitoStatusCard />
+              <TxStreamPanel transactions={metrics.transactions} />
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'settings' && (
+          <div className="col-span-12 glass-card p-6 md:p-8 flex flex-col gap-6 max-w-4xl mx-auto w-full hover:border-white/10">
+            <div>
+              <h2 className="font-display font-semibold text-lg tracking-tight text-text-primary">SETTINGS & SYSTEM INFORMATION</h2>
+              <p className="text-xs text-text-secondary mt-1">Configure and view local Helix SDK configurations</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-white/[0.06] pt-6">
+              <div className="flex flex-col gap-4">
+                <h3 className="font-display font-semibold text-sm text-text-primary uppercase tracking-wider">DAEMON STATE</h3>
+                <div className="flex flex-col gap-2 bg-black/10 border border-white/[0.04] p-4 rounded-xl text-xs font-mono text-text-secondary">
+                  <div className="flex justify-between py-1 border-b border-white/[0.04]">
+                    <span>Host Connection</span>
+                    <span className={connected ? 'text-state-healthy font-bold' : 'text-state-unhealthy font-bold'}>
+                      {connected ? 'CONNECTED (localhost:3001)' : 'OFFLINE (Fallback Active)'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-white/[0.04]">
+                    <span>Bearer Token Authentication</span>
+                    <span className="text-text-primary font-bold">Enabled</span>
+                  </div>
+                  <div className="flex justify-between py-1">
+                    <span>Active Environment</span>
+                    <span className="text-solana-purple font-bold">mainnet-beta</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <h3 className="font-display font-semibold text-sm text-text-primary uppercase tracking-wider">FAILOVER THRESHOLDS</h3>
+                <div className="flex flex-col gap-2 bg-black/10 border border-white/[0.04] p-4 rounded-xl text-xs font-mono text-text-secondary">
+                  <div className="flex justify-between py-1 border-b border-white/[0.04]">
+                    <span>Degradation Latency Limit</span>
+                    <span className="text-text-primary">1,500 ms</span>
+                  </div>
+                  <div className="flex justify-between py-1 border-b border-white/[0.04]">
+                    <span>RPC Pool Health Revalidation</span>
+                    <span className="text-text-primary">5,000 ms</span>
+                  </div>
+                  <div className="flex justify-between py-1">
+                    <span>Transaction Expiry Limit</span>
+                    <span className="text-text-primary">15s (25 slots)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/[0.06] pt-6 flex flex-col gap-3 text-xs text-text-secondary">
+              <h3 className="font-display font-semibold text-sm text-text-primary uppercase tracking-wider">DEVELOPER INTEGRATION</h3>
+              <p>The Helix Resilience Daemon acts as a local reverse proxy for all Solana RPC traffic. Route your HTTP requests and Web3 clients to port 3001 to activate failover shielding:</p>
+              <pre className="bg-[#05050A] border border-white/[0.06] p-4 rounded-lg text-text-code overflow-x-auto">
+{`import { HelixRpcClient } from '@helix-sdk/core';
+
+const client = new HelixRpcClient({
+  endpoints: [
+    'https://mainnet.helius-rpc.com',
+    'https://solana-mainnet.quiknode.pro'
+  ],
+  fallbackTimeoutMs: 1500
+});`}
+              </pre>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
