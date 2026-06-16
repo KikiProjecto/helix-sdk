@@ -1,0 +1,4 @@
+packages/**
+examples/**
+apps/dashboard/coverage
+apps/dashboard/.next
