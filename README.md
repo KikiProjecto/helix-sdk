@@ -1,8 +1,9 @@
 # Helix SDK — Solana RPC & Transaction Reliability Infrastructure
 
-[![CI Status](https://github.com/KikiProjecto/helix-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/KikiProjecto/helix-sdk/actions)
-[![Coverage](https://github.com/KikiProjecto/helix-sdk/actions/workflows/coverage.yml/badge.svg)](https://github.com/KikiProjecto/helix-sdk)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/KikiProjecto/helix-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/KikiProjecto/helix-sdk/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
+[![npm @helix-sdk/core](https://img.shields.io/npm/v/@helix-sdk/core?color=purple)](https://www.npmjs.com/package/@helix-sdk/core)
+[![TypeScript 5.x](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
 
 Helix is a production-grade, systems-level TypeScript SDK built on the functional and modular **Solana web3.js v2.0** API. It protects decentralized applications from RPC node failures, rate-limiting, transaction dropping, and MEV frontrunning.
 
