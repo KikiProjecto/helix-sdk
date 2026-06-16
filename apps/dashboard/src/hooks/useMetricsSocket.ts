@@ -234,4 +234,17 @@ export function useMetricsSocket() {
 
     connect();
 
+    return () => {
+      if (reconnectTimeout) clearTimeout(reconnectTimeout);
+      if (fallbackTimeout) clearTimeout(fallbackTimeout);
+      if (simulationInterval) clearInterval(simulationInterval);
+      if (wsRef.current) {
+        try {
+          wsRef.current.close();
+        } catch {}
+      }
+    };
+  }, []);
 
+  return { metrics, connected };
+}
