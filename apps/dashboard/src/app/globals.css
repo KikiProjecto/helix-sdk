@@ -74,11 +74,11 @@
 
 body {
   background:
-    radial-gradient(ellipse 90% 70% at 10% 85%, rgba(249, 115, 22, 0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 80% at 90% 10%, rgba(153, 69, 255, 0.15) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 40% at 70% 60%, rgba(20, 241, 149, 0.04) 0%, transparent 60%),
-    linear-gradient(145deg, #0C0818 0%, #07060F 40%, #0A0A12 100%);
-  background-attachment: fixed;
+    radial-gradient(ellipse 90% 70% at 10% 85%, rgba(153, 69, 255, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 80% at 90% 10%, rgba(20, 241, 149, 0.12) 0%, transparent 55%),
+    linear-gradient(to bottom, rgba(7, 6, 15, 0.65) 0%, rgba(7, 6, 15, 0.85) 100%),
+    url('/helixBG.png') no-repeat center center fixed;
+  background-size: cover;
   color: var(--text-primary);
   font-family: var(--font-sans);
   overflow-x: hidden;
@@ -124,27 +124,31 @@ body {
   margin: 0 auto;
 }
 
-/* Glass Card Component Spec */
+/* Liquid Glass Card Component Spec */
 .glass-card {
-  background: var(--glass-2);
-  backdrop-filter: var(--blur-md);
-  -webkit-backdrop-filter: var(--blur-md);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  box-shadow: var(--glass-shadow);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.2),
+    0 12px 32px -10px rgba(0, 0, 0, 0.5);
   position: relative;
   overflow: hidden;
-  transition: all 250ms var(--ease-glass);
+  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--glass-warm-tint);
+  background: linear-gradient(135deg, rgba(153, 69, 255, 0.04) 0%, rgba(20, 241, 149, 0.02) 50%, transparent 100%);
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
+  transition: opacity 500ms ease;
 }
 
 .glass-card > * {
@@ -153,16 +157,24 @@ body {
 }
 
 .glass-card:hover {
-  background: var(--glass-3);
-  border-color: var(--glass-border-hover);
-  box-shadow: var(--glass-shadow-hover);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.03) 100%);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
+    0 20px 48px -12px rgba(0, 0, 0, 0.6),
+    0 0 24px 0 rgba(153, 69, 255, 0.08);
+  transform: translateY(-4px) scale(1.005);
+}
+
+.glass-card:hover::before {
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(153, 69, 255, 0.08) 0%, rgba(20, 241, 149, 0.05) 50%, transparent 100%);
 }
 
 /* Navigation Redesign — Pill Nav */
 .nav-pill {
   position: fixed;
-  top: 16px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
@@ -170,13 +182,22 @@ body {
   align-items: center;
   gap: 4px;
   padding: 6px 8px 6px 12px;
-  background: rgba(10, 10, 20, 0.40);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(10, 10, 20, 0.35);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.50);
-  transition: all 300ms var(--ease-glass);
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15),
+    0 12px 32px rgba(0, 0, 0, 0.5);
+  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-pill:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
+    0 16px 40px rgba(0, 0, 0, 0.6);
 }
 
 .nav-tab {
@@ -187,19 +208,23 @@ body {
   font-size: 13px;
   color: var(--text-secondary);
   cursor: pointer;
-  transition: all 150ms ease;
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
 }
 
 .nav-tab.active {
-  background: var(--solana-purple);
+  background: linear-gradient(135deg, var(--solana-purple) 0%, #7d33d6 100%);
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.2),
+    0 4px 12px rgba(153, 69, 255, 0.35);
   color: #FFFFFF;
 }
 
 .nav-tab:not(.active):hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text-primary);
 }
+
 
 .nav-status {
   margin-left: 8px;

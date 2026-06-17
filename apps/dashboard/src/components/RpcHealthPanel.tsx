@@ -21,8 +21,8 @@ export function RpcHealthPanel({ endpoints, transactions }: RpcHealthPanelProps)
 
   return (
     <>
-      {/* 1. Latency Card (col-span-2, row-span-2) */}
-      <div className="glass-card p-5 flex flex-col justify-between col-span-12 md:col-span-6 xl:col-span-2 xl:row-span-2 group">
+      {/* 1. Latency Card */}
+      <div className="glass-card p-4 flex flex-col justify-between col-span-1 hover:border-white/20 group">
         <div className="flex justify-between items-center text-[10px] font-display font-medium tracking-widest text-text-muted uppercase">
           <span>AVG P50 LATENCY</span>
           <Zap className="w-4 h-4 text-solana-purple group-hover:animate-bounce shrink-0" />
@@ -48,8 +48,8 @@ export function RpcHealthPanel({ endpoints, transactions }: RpcHealthPanelProps)
         </div>
       </div>
 
-      {/* 2. Uptime SLA Card (col-span-2, row-span-2) */}
-      <div className="glass-card p-5 flex flex-col justify-between col-span-12 md:col-span-6 xl:col-span-2 xl:row-span-2 group">
+      {/* 2. Uptime SLA Card */}
+      <div className="glass-card p-4 flex flex-col justify-between col-span-1 hover:border-white/20 group">
         <div className="flex justify-between items-center text-[10px] font-display font-medium tracking-widest text-text-muted uppercase">
           <span>UPTIME SLA</span>
           <ShieldCheck className="w-4 h-4 text-state-healthy shrink-0" />
@@ -75,8 +75,8 @@ export function RpcHealthPanel({ endpoints, transactions }: RpcHealthPanelProps)
         </div>
       </div>
 
-      {/* 3. Dropped Transactions Card (col-span-2, row-span-2) */}
-      <div className="glass-card p-5 flex flex-col justify-between col-span-12 md:col-span-6 xl:col-span-2 xl:row-span-2 group">
+      {/* 3. Dropped Transactions Card */}
+      <div className="glass-card p-4 flex flex-col justify-between col-span-2 hover:border-white/20 group">
         <div className="flex justify-between items-center text-[10px] font-display font-medium tracking-widest text-text-muted uppercase">
           <span>DROPPED TXS</span>
           <AlertTriangle className={`w-4 h-4 shrink-0 ${droppedCount > 0 ? 'text-state-unhealthy animate-pulse' : 'text-text-muted'}`} />

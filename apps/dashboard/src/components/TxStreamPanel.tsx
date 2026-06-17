@@ -14,7 +14,7 @@ export function TxStreamPanel({ transactions }: TxStreamPanelProps) {
   const droppedCount = transactions.filter((t) => t.status === 'dropped').length;
 
   return (
-    <div className="glass-card flex flex-col h-full col-span-12 xl:col-span-4 xl:row-span-10 shadow-2xl">
+    <div className="glass-card flex flex-col h-full col-span-12 xl:col-span-4 xl:row-span-8 shadow-2xl">
       {/* Header */}
       <div className="p-4 border-b border-white/[0.08] flex justify-between items-center bg-black/20 select-none">
         <h2 className="font-display font-semibold text-[14px] tracking-wider text-text-primary">TRANSACTION FEED</h2>

@@ -86,19 +86,23 @@ export default function Dashboard() {
             {/* Rows 1-5: Hero Terminal (Left) */}
             <LiveTerminal endpoints={metrics.endpoints} />
 
-            {/* Rows 1-2: Latency & Uptime metrics (Right) */}
-            <RpcHealthPanel endpoints={metrics.endpoints} transactions={metrics.transactions} />
+            {/* Rows 1-5: Right status panel with health metrics & Jito Status */}
+            <div className="col-span-12 xl:col-span-4 xl:row-span-5 flex flex-col gap-4 h-full">
+              <div className="grid grid-cols-2 gap-4">
+                <RpcHealthPanel endpoints={metrics.endpoints} transactions={metrics.transactions} />
+              </div>
+              <JitoStatusCard />
+            </div>
 
-            {/* Rows 3-5: Jito Status (Right) */}
-            <JitoStatusCard />
+            {/* Rows 6-13: Individual Endpoint Health Cards (4 endpoints - Left) */}
+            <div className="col-span-12 xl:col-span-8 xl:row-span-8 grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+              <PoolStatusGrid endpoints={metrics.endpoints} />
+            </div>
 
-            {/* Rows 6-15: Individual Endpoint Health Cards (4 endpoints) */}
-            <PoolStatusGrid endpoints={metrics.endpoints} />
-
-            {/* Rows 6-15: Live Transaction Stream (Right) */}
+            {/* Rows 6-13: Live Transaction Stream (Right) */}
             <TxStreamPanel transactions={metrics.transactions} />
 
-            {/* Rows 16-17: Bottom full-width map (Left) */}
+            {/* Rows 14-16: Bottom full-width map */}
             <PoolNodeDotMap endpoints={metrics.endpoints} />
           </>
         )}

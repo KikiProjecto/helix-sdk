@@ -34,15 +34,10 @@ export function PoolStatusGrid({ endpoints }: PoolStatusGridProps) {
         // Format history data for AreaChart (last 30 data points)
         const chartData = ep.history.map((val, i) => ({ slot: i, latency: val }));
 
-        // Grid positioning logic
-        // Card 1 & 2 go on Row 6-10. Card 3 & 4 go on Row 11-15.
-        // Helius (col 1-4), QuickNode (col 5-8), Triton (col 1-4), Public (col 5-8)
-        const gridSpan = 'col-span-12 md:col-span-6 xl:col-span-4 xl:row-span-5';
-
         return (
           <div 
             key={ep.url} 
-            className={`glass-card p-5 flex flex-col justify-between ${gridSpan} group hover:border-white/20`}
+            className="glass-card p-5 flex flex-col justify-between w-full h-full group hover:border-white/20"
           >
             {/* Header: Dot + Name + Status Badge */}
             <div className="flex justify-between items-center select-none">

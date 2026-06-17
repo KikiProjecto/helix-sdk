@@ -26,7 +26,7 @@ export function JitoStatusCard() {
   }, []);
 
   return (
-    <div className="glass-card p-5 flex flex-col justify-between col-span-12 xl:col-span-4 xl:row-span-3 hover:border-white/20 group">
+    <div className="glass-card p-4 flex flex-col justify-between w-full flex-1 hover:border-white/20 group">
       {/* Header */}
       <div className="flex justify-between items-center select-none">
         <span className="text-[10px] font-display font-medium tracking-widest text-text-muted uppercase">JITO MEV PROTECTION</span>
