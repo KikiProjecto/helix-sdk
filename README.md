@@ -31,22 +31,22 @@ Helix is organized as a pnpm workspace monorepo:
 ┌─────────────────────────────────────────────────────────────┐
 │                     Your dApp / Protocol                    │
 ├─────────────────────────────────────────────────────────────┤
-│              @helix-sdk/wallet-adapter                      │
-│         (transparent resilience for wallet connectors)      │
+│                  @helix-sdk/wallet-adapter                  │
+│        (transparent resilience for wallet connectors)       │
 ├─────────────────────────────────────────────────────────────┤
-│    @helix-sdk/core         │    @helix-sdk/jito             │
-│    (RPC pool + failover)   │    (MEV relay + bundle)        │
+│       @helix-sdk/core       │       @helix-sdk/jito         │
+│    (RPC pool + failover)    │     (MEV relay + bundle)      │
 ├─────────────────────────────────────────────────────────────┤
-│              @helix-sdk/fees                                │
-│         (dynamic fee estimation + CU simulation)            │
+│                    @helix-sdk/fees                          │
+│          (dynamic fee estimation + CU simulation)           │
 ├─────────────────────────────────────────────────────────────┤
-│              @helix-sdk/observability                       │
-│         (OpenTelemetry + Datadog + Prometheus)              │
+│                  @helix-sdk/observability                   │
+│            (OpenTelemetry + Datadog + Prometheus)           │
 ├─────────────────────────────────────────────────────────────┤
-│              @helix-sdk/diagnostics (CLI)                   │
-│         (terminal health checks + diagnostics)              │
+│                 @helix-sdk/diagnostics (CLI)                │
+│            (terminal health checks + diagnostics)           │
 └─────────────────────────────────────────────────────────────┘
-         [Monitoring Dashboard — apps/dashboard]
+             [Monitoring Dashboard — apps/dashboard]
 ```
 
 ---
