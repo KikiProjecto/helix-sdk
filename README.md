@@ -29,21 +29,21 @@ Helix is organized as a pnpm workspace monorepo:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     Your dApp / Protocol                     │
+│                     Your dApp / Protocol                    │
 ├─────────────────────────────────────────────────────────────┤
-│              @helix-sdk/wallet-adapter                       │
-│         (transparent resilience for wallet connectors)       │
+│              @helix-sdk/wallet-adapter                      │
+│         (transparent resilience for wallet connectors)      │
 ├─────────────────────────────────────────────────────────────┤
 │    @helix-sdk/core         │    @helix-sdk/jito             │
 │    (RPC pool + failover)   │    (MEV relay + bundle)        │
 ├─────────────────────────────────────────────────────────────┤
-│              @helix-sdk/fees                                 │
+│              @helix-sdk/fees                                │
 │         (dynamic fee estimation + CU simulation)            │
 ├─────────────────────────────────────────────────────────────┤
-│              @helix-sdk/observability                        │
+│              @helix-sdk/observability                       │
 │         (OpenTelemetry + Datadog + Prometheus)              │
 ├─────────────────────────────────────────────────────────────┤
-│              @helix-sdk/diagnostics (CLI)                    │
+│              @helix-sdk/diagnostics (CLI)                   │
 │         (terminal health checks + diagnostics)              │
 └─────────────────────────────────────────────────────────────┘
          [Monitoring Dashboard — apps/dashboard]
@@ -70,8 +70,4 @@ const helix = createHelixClient({
 });
 ```
 
----
 
-## License
-
-MIT License.
