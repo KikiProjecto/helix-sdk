@@ -17,7 +17,7 @@ export default function Dashboard() {
   // Loading state if WS hasn't loaded first frame
   if (!metrics) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen relative overflow-hidden bg-void">
+      <div className="flex flex-col items-center justify-center min-h-screen relative overflow-hidden">
         {/* Ambient glows inside loading page */}
         <div className="absolute inset-0 pointer-events-none z-0">
           <div className="absolute top-[20%] right-[30%] w-[300px] h-[300px] rounded-full bg-solana-purple/10 blur-[80px]" />
@@ -37,7 +37,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-8 px-4 sm:px-6 lg:px-8 flex flex-col gap-6 bg-void relative">
+    <div className="min-h-screen pt-24 pb-8 px-4 sm:px-6 lg:px-8 flex flex-col gap-6 relative">
       {/* 1. Floating Navigation Pill */}
       <div className="nav-pill select-none">
         <span className="w-5 h-5 flex items-center justify-center bg-solana-purple rounded text-white font-mono text-xs font-bold mr-2">⬡</span>
