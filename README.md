@@ -7,6 +7,10 @@
 
 Helix is a production-grade + systems-level TypeScript SDK built on the functional and modular **Solana web3.js v2.0** API. It protects decentralized applications from RPC node failures, rate-limiting, transaction dropping, and MEV frontrunning.
 
+<div align="center">
+  <img src="hero-1.png" alt="helix daemon" width="100%"/>
+</div>
+
 ---
 
 ## Monorepo Packages
