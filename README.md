@@ -9,6 +9,7 @@ Helix is a production-grade + systems-level TypeScript SDK built on the function
 
 <div align="center">
   <img src="hero-1.png" alt="helix daemon" width="100%"/>
+  <img src="hero-2.png" alt="bottom sections" width="100%"/>
 </div>
 
 ---
